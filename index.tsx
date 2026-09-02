@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Calculator, Check, Layers, Package, Ruler, Scissors, Shapes, ShieldCheck, Smartphone } from "lucide-react";
+import { Calculator, Check, Layers, Package, Ruler, Scissors, Shapes, ShieldCheck, Smartphone, Image, User, Mail, Phone } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.png.asset.json";
 import logoStickerzone from "@/assets/logo-stickerzone.png.asset.json";
 
@@ -34,11 +34,11 @@ type DieType = "cuadrado" | "circular" | "contorno";
 const SIZES: Size[] = ["3x3", "4x4", "5x5", "6x6", "7x7", "8x8", "9x9", "10x10"];
 
 const SIZE_LABELS: Record<Size, string> = {
-  "3x3": " stickers pequeños sin mucha informacion 3x3 cm",
+  "3x3": " stickers pequeños sin mucha informacion 3x3 cm",
   "4x4": "4x4 cm",
-  "5x5": "etiqueta de producto 5x5 cm",
+  "5x5": "etiqueta de producto 5x5 cm",
   "6x6": "6x6 cm",
-  "7x7": "Para pegar en autos  7x7 cm",
+  "7x7": "Para pegar en autos  7x7 cm",
   "8x8": "mas visible en autos 8x8 cm",
   "9x9": "9x9 cm",
   "10x10": "el mas visible en autos y camiones 10x10 cm",
@@ -131,7 +131,6 @@ const MATERIAL_OPTIONS: { value: Material; label: string; description: string }[
   },
 ];
 
-
 // Laminado protector (adicional por pliego): proporcional al tamaño,
 // $3.500 en 5x5 y $6.000 en 10x10.
 const LAMINATION_PER_SHEET: Record<Size, number> = {
@@ -176,6 +175,52 @@ const DIE_OPTIONS: { value: DieType; label: string; description: string }[] = [
   },
 ];
 
+// Galería de ejemplos de diseños
+const DESIGN_GALLERY = [
+  {
+    id: 1,
+    title: "Logos empresariales",
+    description: "Perfectos para branding",
+    colors: ["Brillante", "Tornasol"],
+    image: "🏢",
+  },
+  {
+    id: 2,
+    title: "Etiquetas de productos",
+    description: "Ideal para pequeños negocios",
+    colors: ["Brillante", "Reflectivo"],
+    image: "🏷️",
+  },
+  {
+    id: 3,
+    title: "Stickers para autos",
+    description: "Alta visibilidad garantizada",
+    colors: ["Reflectivo", "Tornasol"],
+    image: "🚗",
+  },
+  {
+    id: 4,
+    title: "Decorativos personales",
+    description: "Diseños creativos y únicos",
+    colors: ["Brillante"],
+    image: "✨",
+  },
+  {
+    id: 5,
+    title: "Códigos QR personalizados",
+    description: "Interactivos y modernos",
+    colors: ["Brillante", "Tornasol"],
+    image: "📱",
+  },
+  {
+    id: 6,
+    title: "Vinil recortado",
+    description: "Contornos precisos",
+    colors: ["Brillante", "Reflectivo"],
+    image: "✂️",
+  },
+];
+
 function formatCurrency(n: number) {
   return "$" + Math.round(n).toLocaleString("es-CL");
 }
@@ -194,7 +239,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.65-2.059-.173-.297-.018-.458.13-.606.12-.12.297-.312.446-.468.149-.156.198-.268.298-.446.099-.179.05-.335-.025-.469-.075-.134-.669-1.612-.916-2.207-.242-.579-.487-.501-.67-.51-.173-.008-.371-.01-.571-.01-.2 0-.523.074-.797.372-.274.298-1.048 1.022-1.048 2.49 0 1.467 1.073 2.89 1.22 3.09.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-3.183 0-5.775 2.588-5.775 5.775 0 1.138.372 2.26 1.088 3.231L1.691 19.586l3.622-1.192c.955.588 2.066.896 3.189.896h.005c3.183 0 5.777-2.588 5.777-5.775 0-1.545-.635-2.993-1.784-4.091-1.149-1.098-2.677-1.703-4.309-1.703M20.447 3.032C18.224.8 15.151 0 12.031 0 5.263 0 0 5.26 0 12.031c0 2.165.556 4.282 1.613 6.154L0 24l6.305-2.035c1.791.956 3.807 1.466 5.926 1.466 6.768 0 12.031-5.263 12.031-12.031 0-3.22-.854-6.293-2.484-8.368"/>
     </svg>
   );
 }
@@ -206,6 +251,11 @@ function Index() {
   const [cutType, setCutType] = useState<CutType>("pliego");
   const [lamination, setLamination] = useState<boolean>(false);
   const [dieType, setDieType] = useState<DieType>("cuadrado");
+  
+  // Campos de contacto
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   // En tornasol el corte unitario va incluido
   const cutIncluded = CUT_INCLUDED.includes(material);
@@ -233,6 +283,9 @@ function Index() {
     const lines = [
       "Hola Stickerzone, quiero enviar mi pedido de stickers con los siguientes datos:",
       "",
+      `👤 Nombre: ${firstName} ${lastName}`,
+      `📧 Correo: ${email}`,
+      "",
       `Material: ${materialLabel}`,
       `Tamaño: ${size} cm`,
       `Cantidad de stickers: ${quantity.toLocaleString("es-CL")}`,
@@ -251,6 +304,9 @@ function Index() {
     ];
     return encodeURIComponent(lines.filter(Boolean).join("\n"));
   }, [
+    firstName,
+    lastName,
+    email,
     materialLabel,
     size,
     quantity,
@@ -267,6 +323,9 @@ function Index() {
   ]);
 
   const whatsappHref = `https://wa.me/+56990619617?text=${whatsappMessage}`;
+  
+  // Validar que los campos requeridos estén completos
+  const isFormValid = firstName.trim() && lastName.trim() && email.trim();
 
   // Escala visual del sticker: máximo 220px
   const scale = Math.min(220 / Math.max(w, h), 1);
@@ -326,9 +385,84 @@ function Index() {
           </div>
         </header>
 
+        {/* Galería de diseños */}
+        <section className="mb-10">
+          <div className="mb-6 flex items-center gap-2">
+            <Image className="size-6 text-primary" />
+            <h2 className="font-display text-2xl font-bold">Galería de Diseños</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {DESIGN_GALLERY.map((design) => (
+              <div key={design.id} className="group overflow-hidden rounded-2xl border border-white/10 bg-card p-4 text-card-foreground shadow-xl shadow-black/5 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10">
+                <div className="mb-4 text-5xl">{design.image}</div>
+                <h3 className="font-semibold text-card-foreground mb-1">{design.title}</h3>
+                <p className="text-xs text-muted-foreground mb-3">{design.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {design.colors.map((color) => (
+                    <span key={color} className="rounded-full bg-primary/20 px-2 py-1 text-xs font-medium text-primary">
+                      {color}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
           {/* Inputs */}
           <div className="space-y-5 lg:col-span-7">
+            {/* Datos de contacto */}
+            <section className="rounded-2xl border border-white/10 bg-card p-5 text-card-foreground shadow-xl shadow-black/5 sm:p-6">
+              <div className="mb-5 flex items-center gap-2">
+                <User className="size-5 text-primary" />
+                <h2 className="text-sm font-bold uppercase tracking-widest text-card-foreground/80">
+                  Datos de contacto
+                </h2>
+              </div>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                      Nombre *
+                    </label>
+                    <input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Tu nombre"
+                      className="w-full rounded-xl border border-input bg-surface px-4 py-3 text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/25"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                      Apellido *
+                    </label>
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Tu apellido"
+                      className="w-full rounded-xl border border-input bg-surface px-4 py-3 text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/25"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                    <Mail className="size-4" />
+                    Correo electrónico *
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tu.email@ejemplo.com"
+                    className="w-full rounded-xl border border-input bg-surface px-4 py-3 text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/25"
+                  />
+                </div>
+              </div>
+            </section>
+
             {/* Material */}
             <section className="rounded-2xl border border-white/10 bg-card p-5 text-card-foreground shadow-xl shadow-black/5 sm:p-6">
               <div className="mb-5 flex items-center gap-2">
@@ -390,13 +524,13 @@ function Index() {
                           : "border border-input bg-surface text-foreground hover:border-primary/50"
                       )}
                     >
-                      {SIZE_LABELS[s]}
+                      {s}
                     </button>
                   );
                 })}
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
-                 Medidas en centímetros (ancho × alto). indica siempre tu medida mas grande 
+                 Medidas en centímetros (ancho × alto). indica siempre tu medida mas grande 
               </p>
             </section>
 
@@ -420,7 +554,7 @@ function Index() {
                     onChange={(e) =>
                       setQuantity(Math.max(1, Math.min(100000, Number(e.target.value) || 1)))
                     }
-                    className="w-full rounded-xl border border-input bg-surface px-4 py-3 text-lg font-semibold text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-ring"
+                    className="w-full rounded-xl border border-input bg-surface px-4 py-3 text-lg font-semibold text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/25"
                   />
                 </div>
                 <div className="rounded-xl bg-primary/5 px-4 py-3 text-center sm:text-left">
@@ -437,7 +571,7 @@ function Index() {
               <div className="mb-5 flex items-center gap-2">
                 <Scissors className="size-5 text-primary" />
                 <h2 className="text-sm font-bold uppercase tracking-widest text-card-foreground/80">
-                   4. TIPO DE CORTE ( TODOS VIENEN TROQUELADOS POR EL BORDE ,( CORTE DEL STICKER , NO DE LA BASE  )
+                   4. TIPO DE CORTE ( TODOS VIENEN TROQUELADOS POR EL BORDE ,( CORTE DEL STICKER , NO DE LA BASE  )
                 </h2>
               </div>
               {cutIncluded ? (
@@ -657,11 +791,27 @@ function Index() {
                     </span>
                   </div>
 
+                  {!isFormValid && (
+                    <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/30 p-3 text-xs text-yellow-600">
+                      ⚠️ Por favor completa tu nombre, apellido y correo para enviar el pedido.
+                    </div>
+                  )}
+
                   <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-[#25D366]/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                    href={isFormValid ? whatsappHref : "#"}
+                    target={isFormValid ? "_blank" : undefined}
+                    rel={isFormValid ? "noopener noreferrer" : undefined}
+                    onClick={(e) => {
+                      if (!isFormValid) {
+                        e.preventDefault();
+                      }
+                    }}
+                    className={cn(
+                      "mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl px-5 py-3.5 text-base font-bold shadow-lg transition-all",
+                      isFormValid
+                        ? "bg-[#25D366] text-white shadow-[#25D366]/25 hover:bg-[#20ba5c]"
+                        : "bg-gray-400 text-gray-200 cursor-not-allowed shadow-gray-400/25"
+                    )}
                   >
                     <WhatsAppIcon className="size-6" />
                     ENVIAR MI PEDIDO
